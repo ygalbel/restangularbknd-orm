@@ -3,13 +3,11 @@
   "description": "Restangular for Back&",
   "version": "0.0.1",
   "main": [
-    "auth.js",
-    "consts.js",
-    "session.js",
-    "restangularbknd.js"
+    "src/"
   ],
   "ignore": [
-  
+    "Bower/*",
+    "example/*"
   ],
   "homepage": "https://github.com/backand/restangularbknd-orm",
   "license": "MIT",
