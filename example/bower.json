@@ -8,13 +8,10 @@
   "dependencies": {
     "angular": "latest",
     "angular-route": "latest",
-    "angular-resource": "latest",
     "angular-loader": "latest",
     "angular-mocks": "latest",
-	"angular-cookies": "latest",
-    "html5-boilerplate": "latest",
-    "ngstorage": "latest",
+	"html5-boilerplate": "latest",
     "restangular": "latest",
-	"restangularBknd-orm": "latest"
+	"restangularbknd-orm": "latest"
   }
 }
