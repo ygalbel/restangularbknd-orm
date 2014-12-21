@@ -7,7 +7,7 @@
   ],
   "ignore": [
     "Bower/*",
-    "example/*"
+    "example/*",
     "Bower",
     "example"
   ],
