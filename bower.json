@@ -8,6 +8,8 @@
   "ignore": [
     "Bower/*",
     "example/*"
+    "Bower",
+    "example"
   ],
   "homepage": "https://github.com/backand/restangularbknd-orm",
   "license": "MIT",
