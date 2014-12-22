@@ -12,19 +12,21 @@ Following are the sources and example of how to use Backand's ORM with [Restangu
 - [Dependencies](#dependencies)
 - [Starter Guide](#starter-guide)
   - [Configuration](##Configuration)
-  - [Using restangularbknd-orm](##Using-restangularbknd-orm)
-    - [Authorization](###Authorization)
+    - [Authentication](###Authentication)
+    - [Session](###Session)
+    - [Restangular Backand Configuration](###Restangular-Backand-Configuration)
+  - [Using Backand ORM with Restangular](##Using-Backand-ORM-with-Restangular)
 - [License](#license)
 
 
 #short-description
 
 restangularbknd-orm has three services:
- * authorization
+ * auth (authentication)
  * session
- * restangularbknd 
+ * restangularbknd (Restangular Backand Configuration)
 
- The authorization  handles the OAuth2 authentication with Backand. It uses a POST verb and sends a username, password and appname (application name) and recieves an authentication token that is used for all further communication with Backand.
+ The Auth service handles the OAuth2 authentication with Backand. It uses a POST verb and sends a username, password and appname (application name) and recieves an authentication token that is used for all further communication with Backand.
  The Session enables you to remain signed-in after the page is reloaded. It uses a cookie to persist the authentication token.
  The restangularbknd handles the Restangular Configuration. This enables you to use Restangular in your app
 
@@ -63,11 +65,9 @@ angular.module('your-app').controller('Your Controller', function($scope, Restan
 
 ````
 
-## Using restangularbknd-orm
+### Authentication
 
-### Authorization
-
-Use the authorization service in the controller that responsible to sign-in and sign out.
+Use the Authentication service in the controller that responsible to sign-in and sign out.
 Call the signIn with username, password and appname, and in the success callback set the credentials, which are basically the auth token, into the session and restangularbknd services.
 
 ````javascript
@@ -76,7 +76,9 @@ Call the signIn with username, password and appname, and in the success callback
 	$scope.signIn = function () {
         
 		// send the username, password and appname to get an OAuth2 authentication token
-		*AuthService.signIn*($scope.username, $scope.password, $scope.appname)
+		/****** Authentication Service Usage ********/
+		AuthService.signIn($scope.username, $scope.password, $scope.appname)
+		/********************************************/
         .success(function (data, status, headers, config) {
 			// handle success
             SessionService.setCredentials(data);
@@ -84,9 +86,7 @@ Call the signIn with username, password and appname, and in the success callback
         })
         .error(function (data, status, headers, config) {
 			// handle error        
-
         });
-    
     };
 
 }]);
@@ -96,7 +96,8 @@ Call the signIn with username, password and appname, and in the success callback
 ### Session
 
 Use the session service in the controller that responsible to sign-in and sign out.
-Call the signIn with username, password and appname, and in the success callback set the credentials, which are basically the auth token, into the session and restangularbknd services.
+Set the credentials in the sign-in success callback.
+Remove them to sign out
 
 ````javascript
 .controller('authorizationCtrl', ['$scope', 'AuthService', 'SessionService', 'RestangularBknd', function ($scope, AuthService, SessionService, RestangularBknd) {
@@ -107,20 +108,111 @@ Call the signIn with username, password and appname, and in the success callback
 		AuthService.signIn($scope.username, $scope.password, $scope.appname)
         .success(function (data, status, headers, config) {
 			// handle success
-            SessionService.setCredentials(data);
+			/****** Session Service Usage ********/
+			SessionService.setCredentials(data);
+			/*************************************/
             RestangularBknd.setCredentials(SessionService.getAuthHeader());
         })
         .error(function (data, status, headers, config) {
 			// handle error        
-
         });
-    
+    };
+
+	$scope.signOut = function () {
+		/****** Session Service Usage ********/
+        **SessionService**.clearCredentials();
+        /*************************************/
+        RestangularBknd.clearCredentials();
     };
 
 }]);
 
 ````
 
+When the application starts, call them to set them into Restangular
+
+````javascript
+myApp.run(function (RestangularBknd, SessionService) {
+    RestangularBknd.config();
+	/****** Session Service Usage ********/
+    var authHeader = SessionService.getAuthHeader();
+    /*************************************/
+    RestangularBknd.setCredentials(authHeader);
+});
+````
+
+### Restangular Backand Configuration
+
+Configure the Restangular when the application starts,
+and set the credentials from the session (cookie) if there are any
+
+````javascript
+myApp.run(function (RestangularBknd, SessionService) {
+    /****** RestangularBknd Service Usage ********/
+    RestangularBknd.config();
+	/*********************************************/
+	var authHeader = SessionService.getAuthHeader();
+    /****** RestangularBknd Service Usage ********/
+    RestangularBknd.setCredentials(authHeader);
+	/*********************************************/
+});
+````
+
+set the credentials after authentication
+
+````javascript
+.controller('authorizationCtrl', ['$scope', 'AuthService', 'SessionService', 'RestangularBknd', function ($scope, AuthService, SessionService, RestangularBknd) {
+
+	$scope.signIn = function () {
+        
+		// send the username, password and appname to get an OAuth2 authentication token
+		AuthService.signIn($scope.username, $scope.password, $scope.appname)
+        .success(function (data, status, headers, config) {
+			// handle success
+			SessionService.setCredentials(data);
+			/****** RestangularBknd Service Usage ********/
+			RestangularBknd.setCredentials(SessionService.getAuthHeader());
+			/*********************************************/
+        })
+        .error(function (data, status, headers, config) {
+			// handle error        
+        });
+    };
+
+}]);
+
+````
+
+##Using Backand ORM with Restangular
+
+If you do not already familiar with Restangular,
+Click on Restangular to learn more.
+
+With the authentication and the Restangular configuration setteled we can perform all the CRUD operations:
+
+###List
+
+Call Restangular with the following parameters to get a list:
+
+* **pageSize** the number of returned items in each getList call
+* **pageNumber** The page number starting with 1
+
+
+````javascript
+Restangular.all('Employees').getList({ pageSize: 5, filter: JSON.stringify([{ fieldName: "First_Name", operator: "contains", value: "j" }]) }).then(function (Employees) {
+            $scope.result = "\n" + JSON.stringify(Employees, null, "\t");
+        }, function (response) {
+            $scope.handleError(response);
+        });
+		
+````
+###One Item
+
+###Create
+
+###Update
+
+###Delete
 
 # License
 
