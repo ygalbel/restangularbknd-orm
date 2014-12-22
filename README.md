@@ -120,7 +120,7 @@ Remove them to sign out
 
 	$scope.signOut = function () {
 		/****** Session Service Usage ********/
-        **SessionService**.clearCredentials();
+        SessionService.clearCredentials();
         /*************************************/
         RestangularBknd.clearCredentials();
     };
@@ -192,17 +192,34 @@ With the authentication and the Restangular configuration setteled we can perfor
 
 ###List
 
-Call Restangular with the following parameters to get a list:
+Call Restangular getList with the following parameters to get a list:
 
 * **pageSize** the number of returned items in each getList call
 * **pageNumber** The page number starting with 1
-
+* **filter** A stringified array were each item has the properties fieldName, operator and value.
+The operator options depend on the field type.
+* **sort** A stringified array were each item has the properties fieldName and order.
+The order options are "asc" or "desc".
+* **search** Free text search
+* **deep** When set to true, brings the related parent rows in the relatedTables property
+* **withSelectOptions** When set to true, get a text, value collection to load select options according to parent relations
 
 ````javascript
-Restangular.all('Employees').getList({ pageSize: 5, filter: JSON.stringify([{ fieldName: "First_Name", operator: "contains", value: "j" }]) }).then(function (Employees) {
-            $scope.result = "\n" + JSON.stringify(Employees, null, "\t");
+
+var getListParameters = {
+	pageSize: 5,
+	pageNumber: 1,
+	filter: JSON.stringify([{ fieldName: "Name", operator: "contains", value: "j" }, { fieldName: "Amount", operator: "greaterThan", value: "6" }]),
+	sort: JSON.stringify([{ fieldName: "Name", order: "asc" }]),
+	search: "",
+	deep: false,
+	withSelectOptions: false 
+}
+
+Restangular.all('Some table').getList(getListParameters).then(function (list) {
+            // handle the list
         }, function (response) {
-            $scope.handleError(response);
+            // handle errors
         });
 		
 ````
