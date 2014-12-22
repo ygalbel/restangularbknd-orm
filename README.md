@@ -16,6 +16,7 @@ Following are the sources and example of how to use Backand's ORM with [Restangu
     - [Session](###Session)
     - [Restangular Backand Configuration](###Restangular-Backand-Configuration)
   - [Using Backand ORM with Restangular](##Using-Backand-ORM-with-Restangular)
+- [Run the example](#Run-the-example)
 - [License](#license)
 
 
@@ -194,8 +195,8 @@ With the authentication and the Restangular configuration setteled we can perfor
 
 Call Restangular getList with the following parameters to get a list:
 
-* **pageSize** the number of returned items in each getList call
-* **pageNumber** The page number starting with 1
+* **pageSize** the number of returned items in each getList call, default 20
+* **pageNumber** The page number starting with 1, default 1
 * **filter** A stringified array were each item has the properties fieldName, operator and value.
 The operator options depend on the field type.
 * **sort** A stringified array were each item has the properties fieldName and order.
@@ -225,11 +226,108 @@ Restangular.all('Some table').getList(getListParameters).then(function (list) {
 ````
 ###One Item
 
+Call Restangular get with a specific id and with the following parameters to get a specific item:
+
+* **id** The id is the primary kay value of a table row 
+* **deep** When set to true, brings the related parent and child rows
+
+
+````javascript
+
+var id = 3012;
+
+var getParameters = {
+	deep: false
+}
+
+Restangular.one('Some table', id).get(getParameters).then(function (item) {
+            // handle the item
+        }, function (response) {
+            // handle errors
+        })
+
+````
+
 ###Create
+
+Call Restangular post with a new object to create and the following parameters:
+
+* **returnObject** Set this to true when you have server side business rules that causes additional changes to the object. In that case this request will return the created object
+
+
+````javascript
+
+var objectToCreate = {
+	name: "John",
+	Amount: 15
+};
+
+var postParameters = {
+	returnObject: true
+};
+
+Restangular.all('Some table').post(objectToCreate, postParameters).then(function (item) {
+            // handle the item
+        }, function (response) {
+            // handle errors
+        });
+
+````
 
 ###Update
 
+Call Restangular put to update an existing object with the following parameters:
+
+* **returnObject** Set this to true when you have server side business rules that causes additional changes to the object. In that case this request will return the created object
+
+````javascript
+
+var id = 3012;
+
+var putParameters = {
+	returnObject: true
+};
+
+// get an existing item, you can use getList to get an array an well
+Restangular.one('Some table', id).get().then(function (item) {
+            item.Amount = 17;
+			// save the changes
+			item.put(putParameters).then(function (item) {
+				// handle the item
+            }, function (response) {
+				// handle errors
+            });
+        }, function (response) {
+            // handle errors
+        });
+
+````
+
 ###Delete
+
+Call Restangular remove to delete an item from a list:
+
+
+````javascript
+
+Restangular.all('Some table').getList().then(function (list) {
+			// delete the last item in the list
+            list[list.length - 1].remove().then(function (response) {
+                // handle success
+            }, function (response) {
+				// handle errors
+            });
+        }, function (response) {
+            // handle errors
+        });
+````
+
+# Run the example
+
+form the example folder run `bower install` this should create the bower_components folder under example/app and you can run it.
+
+or you can go to plunkr and play with it.
+
 
 # License
 
@@ -243,6 +341,3 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mgonto/restangular/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
