@@ -4,49 +4,45 @@
  License: MIT
  */
 (function() {
-  'use strict';
-
-    angular.module('backAnd.consts', [])
-    .constant('CONSTS', { backandUrl: 'http://localhost:4109/backapi' });
-
-})();
-;'use strict';
+    'use strict';
 
 
-angular.module('backAnd', [])
+    angular.module('restangularbknd-orm', ['restangular', 'ngCookies'])
 
-.factory('RestangularBknd', ['Restangular', 'CONSTS',
-    function (Restangular, CONSTS) {
-        return {
-            config: function () {
-                Restangular.setResponseExtractor(function (response, operation) {
-                    if (operation === 'getList' && !angular.isArray(response)) {
-                        var newResponse = response.data;
-                        return newResponse;
-                    }
-                    return response;
-                });
+    .factory('RestangularBknd', ['Restangular', 'CONSTS',
+        function (Restangular, CONSTS) {
+            return {
+                config: function () {
+                    Restangular.setResponseExtractor(function (response, operation) {
+                        if (operation === 'getList' && !angular.isArray(response)) {
+                            var newResponse = response.data;
+                            return newResponse;
+                        }
+                        return response;
+                    });
 
-                Restangular.setRestangularFields({
-                    id: "__metadata.id",
-                    route: "restangularRoute",
-                    selfLink: "self.href"
-                });
+                    Restangular.setRestangularFields({
+                        id: "__metadata.id",
+                        route: "restangularRoute",
+                        selfLink: "self.href"
+                    });
 
-                Restangular.setBaseUrl(CONSTS.backandUrl + "/1/table/data");
-            },
-            setCredentials: function (token) {
-                Restangular.setDefaultHeaders({ Authorization: token });
-            },
-            clearCredentials: function () {
-                Restangular.setDefaultHeaders({ Authorization: '' });
+                    Restangular.setBaseUrl(CONSTS.backandUrl + "/1/table/data");
+                },
+                setCredentials: function (token) {
+                    Restangular.setDefaultHeaders({ Authorization: token });
+                },
+                clearCredentials: function () {
+                    Restangular.setDefaultHeaders({ Authorization: '' });
 
+                }
             }
         }
-    }
 
 
-]);
+    ])
+    .constant('CONSTS', { backandUrl: 'http://localhost:4109/backapi' });
+})();
 ;(function() {
   'use strict';
 
@@ -111,7 +107,7 @@ angular.module('backAnd', [])
 
   }
 
-  angular.module('backAnd')
+    angular.module('restangularbknd-orm')
     .service('AuthService', ['$http', 'CONSTS', AuthService])
 
 })();
@@ -156,6 +152,6 @@ angular.module('backAnd', [])
     };
   }
 
-  angular.module('backAnd.session', ['ngCookies'])
+    angular.module('restangularbknd-orm')
     .service('SessionService', ['$rootScope', '$cookieStore', SessionService])
 })();

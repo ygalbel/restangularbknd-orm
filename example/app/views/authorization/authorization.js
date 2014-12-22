@@ -12,9 +12,9 @@ angular.module('myApp.authorization', ['ngRoute'])
 
 .controller('authorizationCtrl', ['$scope', 'AuthService', 'SessionService', '$log', 'RestangularBknd', function ($scope, AuthService, SessionService, $log, RestangularBknd) {
 
-    $scope.user = "admin03@devitout.com";
-    $scope.password = "123456";
-    $scope.appName = "qa55";
+    $scope.user = "guest@backand.com";
+    $scope.password = "guest1234";
+    $scope.appName = "restdemo";
 
     $scope.signIn = function () {
         console.log("authentication");

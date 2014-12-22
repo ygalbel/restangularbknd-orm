@@ -6,10 +6,7 @@ var myApp = angular.module('myApp', [
   'myApp.authorization',
   'myApp.list',
   'myApp.item',
-  'backAnd',
-  'backAnd.consts',
-  'backAnd.session',
-  'restangular'
+  'restangularbknd-orm'
 ])
 .config(['$routeProvider', function ($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/authorization'});

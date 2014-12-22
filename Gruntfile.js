@@ -28,7 +28,6 @@ module.exports = function (grunt) {
                     separator: ';'
                 },
                 src: [
-                'src/consts.js',
                 'src/restangularBknd.js',
                 'src/auth.js',
                 'src/session.js'

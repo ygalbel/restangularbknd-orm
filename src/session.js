@@ -39,6 +39,6 @@
     };
   }
 
-  angular.module('backAnd.session', ['ngCookies'])
+    angular.module('restangularbknd-orm')
     .service('SessionService', ['$rootScope', '$cookieStore', SessionService])
 })();

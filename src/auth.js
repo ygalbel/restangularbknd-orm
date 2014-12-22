@@ -62,7 +62,7 @@
 
   }
 
-  angular.module('backAnd')
+    angular.module('restangularbknd-orm')
     .service('AuthService', ['$http', 'CONSTS', AuthService])
 
 })();

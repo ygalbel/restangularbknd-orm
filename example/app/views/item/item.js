@@ -38,7 +38,7 @@ angular.module('myApp.item', ['ngRoute'])
 
     $scope.deleteItem = function () {
         $scope.result = "Connecting...";
-        Restangular.all('Employees').getList({ pageSize: 10, filter: JSON.stringify([{ fieldName: "First_Name", operator: "contains", value: "relly" }]) }).then(function (Employees) {
+        Restangular.all('Employees').getList({ pageSize: 10, filter: JSON.stringify([{ fieldName: "First_Name", operator: "contains", value: "j" }]) }).then(function (Employees) {
             $scope.result = Employees[Employees.length - 1].remove().then(function (result) {
                 $scope.result = "\n" + JSON.stringify(result, null, "\t");
             }, function (response) {
@@ -51,7 +51,7 @@ angular.module('myApp.item', ['ngRoute'])
 
     $scope.createItem = function () {
         $scope.result = "Connecting...";
-        $scope.result = Restangular.all('Employees').post({ First_Name: "Relly", Last_Name: "Rivlin" }, { returnObject: true }).then(function (Employee) {
+        $scope.result = Restangular.all('Employees').post({ First_Name: "John", Last_Name: "Smith" }, { returnObject: true }).then(function (Employee) {
             $scope.result = "\n" + JSON.stringify(Employee, null, "\t");
         }, function (response) {
             $scope.handleError(response);
