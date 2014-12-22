@@ -41,7 +41,7 @@
 
 
     ])
-    .constant('CONSTS', { backandUrl: 'http://localhost:4109/backapi' });
+    .constant('CONSTS', { backandUrl: 'https://api.backand.com:8080' });
 })();
 ;(function() {
   'use strict';
