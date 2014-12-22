@@ -76,7 +76,7 @@ Call the signIn with username, password and appname, and in the success callback
 	$scope.signIn = function () {
         
 		// send the username, password and appname to get an OAuth2 authentication token
-		AuthService.signIn($scope.username, $scope.password, $scope.appname)
+		*AuthService.signIn*($scope.username, $scope.password, $scope.appname)
         .success(function (data, status, headers, config) {
 			// handle success
             SessionService.setCredentials(data);
@@ -93,6 +93,33 @@ Call the signIn with username, password and appname, and in the success callback
 
 ````
 
+### Session
+
+Use the session service in the controller that responsible to sign-in and sign out.
+Call the signIn with username, password and appname, and in the success callback set the credentials, which are basically the auth token, into the session and restangularbknd services.
+
+````javascript
+.controller('authorizationCtrl', ['$scope', 'AuthService', 'SessionService', 'RestangularBknd', function ($scope, AuthService, SessionService, RestangularBknd) {
+
+	$scope.signIn = function () {
+        
+		// send the username, password and appname to get an OAuth2 authentication token
+		AuthService.signIn($scope.username, $scope.password, $scope.appname)
+        .success(function (data, status, headers, config) {
+			// handle success
+            SessionService.setCredentials(data);
+            RestangularBknd.setCredentials(SessionService.getAuthHeader());
+        })
+        .error(function (data, status, headers, config) {
+			// handle error        
+
+        });
+    
+    };
+
+}]);
+
+````
 
 
 # License
