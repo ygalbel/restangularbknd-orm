@@ -11,7 +11,7 @@ Following are the sources and example of how to use Backand's ORM with [Restangu
 - [How do I add this to my project?](#how-do-i-add-this-to-my-project)
 - [Dependencies](#dependencies)
 - [Starter Guide](#starter-guide)
-  - [Configuration](#Configuration)
+  - [Configuration](#Configuration2)
   - [Using restangularbknd-orm](#Using-restangularbknd-orm)
     - [Authorization](#Authorization)
     - [Let's code!](#lets-code)
@@ -45,7 +45,7 @@ restangularbknd-orm depends on angular, restangular and angular-cookies
 
 #Starter Guide
 
-##Configuration
+##Configuration2
 
 
 ````javascript
