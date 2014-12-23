@@ -20,7 +20,7 @@ Following are the sources and example of how to use Backand's ORM with [Restangu
 - [License](#license)
 
 
-#short-description
+#Short-description
 
 restangularbknd-orm has three services:
  * auth (authentication)
