@@ -21,10 +21,7 @@ The following are the sources and the example of how to use Backand's ORM with [
 - [License](#license)
 
 
-
-
 #Short Description
-
 
 restangularbknd-orm has three services:
  
