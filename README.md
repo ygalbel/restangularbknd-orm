@@ -214,7 +214,7 @@ Set the credentials after authentication.
 ##Using Backand ORM with Restangular
 
 
-If you aren't familiar with Restangular, click here [https://github.com/mgonto/restangular]to learn more. 
+If you aren't familiar with Restangular, click here [https://github.com/mgonto/restangular] to learn more. 
 
 With the authentication and Restangular configurations settled you can perform all the CRUD operations:
 
