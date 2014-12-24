@@ -373,7 +373,7 @@ Restangular.all('Some table').getList().then(function (list) {
 
 # Run the example
 
-From the example folder run `bower install`. This should create the bower_components folder under example/app and then run.  Oor you can go to Plunker and play with it.
+From the example folder run `bower install`. This should create the bower_components folder under example/app and then run.  Or you can go to Plunker [http://plnkr.co/edit/Himh9XP2tNn07VJDFtF8?p=preview] and play with it.
 
 
 
