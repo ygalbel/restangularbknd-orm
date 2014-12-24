@@ -1,8 +1,9 @@
-#restangularbknd-orm
+Click here for the Plunker demo of the example: http://plnkr.co/edit/Himh9XP2tNn07VJDFtF8?p=preview
 
-**plunkr demo of the example, (http://plnkr.co/edit/d6yDka?p=preview).
 
-Following are the sources and example of how to use Backand's ORM with [Restangular](https://github.com/mgonto/restangular), one of the most popular Angular RESTful API components
+
+The following are the sources and the example of how to use Backand's ORM with [Restangular](https://github.com/mgonto/restangular), one of the most popular Angular RESTful API components.
+
 
 #Table of contents
 
@@ -20,32 +21,51 @@ Following are the sources and example of how to use Backand's ORM with [Restangu
 - [License](#license)
 
 
-#short-description
+
+
+#Short Description
+
 
 restangularbknd-orm has three services:
- * auth (authentication)
- * session
- * restangularbknd (Restangular Backand Configuration)
+ 
+* Auth (authentication)
+ 
+* Session
+ 
+* restangularbknd (Restangular Backand Configuration)
 
- The Auth service handles the OAuth2 authentication with Backand. It uses a POST verb and sends a username, password and appname (application name) and recieves an authentication token that is used for all further communication with Backand.
- The Session enables you to remain signed-in after the page is reloaded. It uses a cookie to persist the authentication token.
- The restangularbknd handles the Restangular Configuration. This enables you to use Restangular in your app
+ 
+
+The Auth service handles the OAuth2 authentication with Backand. It uses a POST verb and sends a username, password and appname (application name) and recieves an authentication token that is used for all further communication with Backand.
+ By using a cookie to persist the authentication token, the Session enables you to remain signed-in after the page is reloaded. The restangularbknd handles the Restangular Configuration by enabling you to use Restangular in your app.
+
+
 
 
 #How do I add this to my project?
 
+
 You can download this by:
 
+
 * Using bower and running `bower install restangularbknd-orm`
+
 * Using npm and running `npm install restangularbknd-orm`
-* Downloading it manually by clicking [here to download development unminified version](https://github.com/backand/restangularbknd-orm/blob/master/dist/restangularbknd-orm.debug.js) or [here to download minified production version](https://github.com/backand/restangularbknd-orm/blob/master/dist/restangularbknd-orm.min.js)
+
+* Downloading it manually by clicking [development unminified version](https://github.com/backand/restangularbknd-orm/blob/master/dist/restangularbknd-orm.debug.js) or [minified production version](https://github.com/backand/restangularbknd-orm/blob/master/dist/restangularbknd-orm.min.js)
+
+
 
 
 #Dependencies
 
-restangularbknd-orm depends on angular, restangular and angular-cookies
+
+restangularbknd-orm depends on AngularJS, Restangular and angular-cookies.js
+
+
 
 #Starter Guide
+
 
 ##Configuration
 
@@ -66,10 +86,13 @@ angular.module('your-app').controller('Your Controller', function($scope, Restan
 
 ````
 
+
+
 ### Authentication
 
-Use the Authentication service in the controller that responsible to sign-in and sign out.
-Call the signIn with username, password and appname, and in the success callback set the credentials, which are basically the auth token, into the session and restangularbknd services.
+
+Use the Authentication service in the controller that is responsible for sign-in and sign-out.
+ Call the sign-in with username, password and appname, and in the success callback set the credentials, which are basically the auth token, into the session and restangularbknd services.
 
 ````javascript
 .controller('authorizationCtrl', ['$scope', 'AuthService', 'SessionService', 'RestangularBknd', function ($scope, AuthService, SessionService, RestangularBknd) {
@@ -94,11 +117,13 @@ Call the signIn with username, password and appname, and in the success callback
 
 ````
 
+
+
 ### Session
 
-Use the session service in the controller that responsible to sign-in and sign out.
-Set the credentials in the sign-in success callback.
-Remove them to sign out
+
+Use the session service in the controller that is responsible for sign-in and sign-out. 
+Set the credentials in the sign-in success callback and rRemove them to sign out. 
 
 ````javascript
 .controller('authorizationCtrl', ['$scope', 'AuthService', 'SessionService', 'RestangularBknd', function ($scope, AuthService, SessionService, RestangularBknd) {
@@ -128,9 +153,10 @@ Remove them to sign out
 
 }]);
 
+
 ````
 
-When the application starts, call them to set them into Restangular
+When the application starts, call them to set them into Restangular.
 
 ````javascript
 myApp.run(function (RestangularBknd, SessionService) {
@@ -142,10 +168,13 @@ myApp.run(function (RestangularBknd, SessionService) {
 });
 ````
 
+
+
 ### Restangular Backand Configuration
 
-Configure the Restangular when the application starts,
-and set the credentials from the session (cookie) if there are any
+
+Configure the Restangular when the application starts 
+and set the credentials from the session (cookie) if there are any.
 
 ````javascript
 myApp.run(function (RestangularBknd, SessionService) {
@@ -158,8 +187,7 @@ myApp.run(function (RestangularBknd, SessionService) {
 	/*********************************************/
 });
 ````
-
-set the credentials after authentication
+Set the credentials after authentication.
 
 ````javascript
 .controller('authorizationCtrl', ['$scope', 'AuthService', 'SessionService', 'RestangularBknd', function ($scope, AuthService, SessionService, RestangularBknd) {
@@ -184,26 +212,34 @@ set the credentials after authentication
 
 ````
 
+
+
 ##Using Backand ORM with Restangular
 
-If you do not already familiar with Restangular,
-Click on Restangular to learn more.
 
-With the authentication and the Restangular configuration setteled we can perform all the CRUD operations:
+If you aren't familiar with Restangular, click here [https://github.com/mgonto/restangular]to learn more. 
+
+With the authentication and Restangular configurations settled you can perform all the CRUD operations:
+
 
 ###List
 
+
 Call Restangular getList with the following parameters to get a list:
 
-* **pageSize** the number of returned items in each getList call, default 20
-* **pageNumber** The page number starting with 1, default 1
-* **filter** A stringified array were each item has the properties fieldName, operator and value.
-The operator options depend on the field type.
-* **sort** A stringified array were each item has the properties fieldName and order.
-The order options are "asc" or "desc".
-* **search** Free text search
-* **deep** When set to true, brings the related parent rows in the relatedTables property
-* **withSelectOptions** When set to true, get a text, value collection to load select options according to parent relations
+
+* **pageSize** The number of returned items in each getList call, default 20.
+
+* **pageNumber** The page number starting with 1, default 1.
+
+* **filter** A stringified array where each item has the properties fieldName, operator and value. The operator options depend on the field type.
+
+* **sort** A stringified array where each item has the properties fieldName and order. The order options are "asc" or "desc".
+
+* **search** Free text search.
+
+* **deep** When set to true, brings the related parent rows in the relatedTables property.
+* **withSelectOptions** When set to true, get a text value collection to load select options according to parent relations.
 
 ````javascript
 
@@ -224,11 +260,15 @@ Restangular.all('Some table').getList(getListParameters).then(function (list) {
         });
 		
 ````
+
 ###One Item
 
-Call Restangular get with a specific id and with the following parameters to get a specific item:
+
+Call Restangular with a specific id and with the following parameters to get a specific item:
+
 
 * **id** The id is the primary kay value of a table row 
+
 * **deep** When set to true, brings the related parent and child rows
 
 
@@ -248,11 +288,15 @@ Restangular.one('Some table', id).get(getParameters).then(function (item) {
 
 ````
 
+
+
 ###Create
 
-Call Restangular post with a new object to create and the following parameters:
 
-* **returnObject** Set this to true when you have server side business rules that causes additional changes to the object. In that case this request will return the created object
+Call Restangular post with a new object to create, with the following parameters:
+
+
+* **returnObject** Set this to true when you have server side business rules that causes additional changes to the object. In that case this request will return the created object:
 
 
 ````javascript
@@ -274,11 +318,15 @@ Restangular.all('Some table').post(objectToCreate, postParameters).then(function
 
 ````
 
+
+
 ###Update
+
 
 Call Restangular put to update an existing object with the following parameters:
 
-* **returnObject** Set this to true when you have server side business rules that causes additional changes to the object. In that case this request will return the created object
+
+* **returnObject** Set this to true when you have server side business rules, causing additional changes to the object. In this case the request will return the created object:
 
 ````javascript
 
@@ -303,7 +351,10 @@ Restangular.one('Some table', id).get().then(function (item) {
 
 ````
 
+
+
 ###Delete
+
 
 Call Restangular remove to delete an item from a list:
 
@@ -322,14 +373,16 @@ Restangular.all('Some table').getList().then(function (list) {
         });
 ````
 
+
 # Run the example
 
-form the example folder run `bower install` this should create the bower_components folder under example/app and you can run it.
+From the example folder run `bower install`. This should create the bower_components folder under example/app and then run.  Oor you can go to Plunker and play with it.
 
-or you can go to plunkr and play with it.
+
 
 
 # License
+
 
 The MIT License
 
